@@ -29,8 +29,11 @@ public class Main {
             return -cos(x) * cos(y) * exp(-(pow(x - PI, 2) + pow(y - PI, 2)));
         };
 
-        ArtificialImmuneSystem artificialImmuneSystem = new ArtificialImmuneSystem(f, fX,
-                1000, -100, 100, 2, 10, 15);
+        ArtificialImmuneSystem artificialImmuneSystem = new ArtificialImmuneSystem(sphere, sphereX,
+                1000, new double[][]{
+                {-100, 100},
+                {-100, 100}
+        }, 2, 10, 15);
         artificialImmuneSystem.setBetta(5);
 
         System.out.println("xmin = " + Arrays.toString(artificialImmuneSystem.start()));

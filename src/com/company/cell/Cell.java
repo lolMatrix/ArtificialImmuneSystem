@@ -16,9 +16,9 @@ public class Cell {
      */
     private Function<Double[], Double> lambda;
     private double r;
-    private final double[] interval;
+    private final double[][] interval;
 
-    public Cell(Function<Double[], Double> lambda, Double[] x0, double r, double[] interval) {
+    public Cell(Function<Double[], Double> lambda, Double[] x0, double r, double[][] interval) {
         this.lambda = lambda;
         state = x0;
         this.r = r;
@@ -32,11 +32,11 @@ public class Cell {
     public void mutate(){
         double nextState = 0;
         for (int i = 0; i < state.length; i++) {
-            while (!(nextState >= interval[0] && nextState <= interval[1])) {
+            while (!(nextState >= interval[i][0] && nextState <= interval[i][1])) {
                 if (rnd.nextFloat() > 0.5f){
-                    nextState = state[i] + r * getRndNumberInInterval(0, interval[1] - state[i]);
+                    nextState = state[i] + r * getRndNumberInInterval(0, interval[i][1] - state[i]);
                 } else {
-                    nextState = state[i] - r * getRndNumberInInterval(0, state[i] - interval[0]);
+                    nextState = state[i] - r * getRndNumberInInterval(0, state[i] - interval[i][0]);
                 }
             }
             state[i] = nextState;

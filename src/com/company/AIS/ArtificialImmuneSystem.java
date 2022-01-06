@@ -11,9 +11,9 @@ public class ArtificialImmuneSystem {
 
     private int betta = 10;
 
-    public ArtificialImmuneSystem(Function<Double[], Double> f, Double[] x0, int maxPopulation, double a, double b, double r, int d, int maxIterations) {
+    public ArtificialImmuneSystem(Function<Double[], Double> f, Double[] x0, int maxPopulation, double[][] intervals, double r, int d, int maxIterations) {
         this.maxIterations = maxIterations;
-        p = new Population(f, x0, d, a, b, r, maxPopulation);
+        p = new Population(f, x0, d, intervals, r, maxPopulation);
     }
 
     public Double[] start(){

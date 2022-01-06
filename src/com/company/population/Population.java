@@ -15,17 +15,16 @@ public class Population {
 
     private int dCount;
 
-    private double a;
-    private double b;
+    private double[][] intervals;
+
     private double r;
 
     private int cellsCount;
     private double h = 1;
 
-    public Population(Function<Double[], Double> fx, Double[] x0, int dCount, double a, double b, double r, int cellsCount) {
+    public Population(Function<Double[], Double> fx, Double[] x0, int dCount, double[][] intervals, double r, int cellsCount) {
         this.dCount = dCount;
-        this.a = a;
-        this.b = b;
+        this.intervals = intervals;
         this.r = r;
         this.cellsCount = cellsCount;
 
@@ -37,14 +36,20 @@ public class Population {
 
     private List<Cell> createFirstPopulation(Function<Double[], Double> fx, Double[] x0) {
         ArrayList<Cell> cells = new ArrayList<>();
-        double end = a;
-        h = (b - a) / cellsCount;
+
+        Double[] end = new Double[intervals.length];
         for (int i = 0; i < cellsCount; i++) {
-            double[] interval = new double[2];
-            interval[0] = end;
-            interval[1] = interval[0] + h;
-            end = interval[1];
-            Cell cell = new Cell(fx, x0.clone(), r, interval);
+            double[][] cellInterval = new double[intervals.length][2];
+            for (int j = 0; j < intervals.length; j++) {
+                if (end[j] == null)
+                    end[j] = intervals[j][0];
+
+                h = (intervals[j][1] - intervals[j][0]) / cellsCount;
+                cellInterval[j][0] = end[j];
+                cellInterval[j][1] = cellInterval[j][0] + h;
+                end[j] = cellInterval[j][1];
+            }
+            Cell cell = new Cell(fx, x0.clone(), r, cellInterval);
             cells.add(cell);
         }
         return cells;
